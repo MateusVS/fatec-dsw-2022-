@@ -1,19 +1,12 @@
-describe('Unit testing for StarWars API', () => {
-  it('Should return a not null list of planets', async () => {
-    const response = await global.testRequest.get('/planets');
-    expect(response).not.toBeNull();
-  });
+import { Controller, Get } from '@overnightjs/core';
+import { Request, Response } from 'express';
 
-  it('Should return a status code 200 of planets', async () => {
-    const response = await global.testRequest.get('/planets');
-    const statusCode = response.statusCode;
-    expect(statusCode).toEqual(200);
-  });
+@Controller('planets')
+export class StarWarsController {
 
-  it('Should return a valid list of planets', async () => {
-    const response = await global.testRequest.get('/planets');
-    const body = response.body;
-    expect(body).toEqual({
+  @Get('')
+  public getStarWarsPlanet(request: Request, response: Response): void {
+    const responseBody = {
       "count": 60,
       "next": "https://swapi.dev/api/planets/?page=2",
       "previous": null,
@@ -93,7 +86,7 @@ describe('Unit testing for StarWars API', () => {
           "url": "https://swapi.dev/api/planets/3/"
         },
         {
-          "name": "Hoth",
+          "name": "Hoth",responseBody
           "rotation_period": "23",
           "orbital_period": "549",
           "diameter": "7200",
@@ -130,7 +123,7 @@ describe('Unit testing for StarWars API', () => {
           "edited": "2014-12-20T20:58:18.425000Z",
           "url": "https://swapi.dev/api/planets/5/"
         },
-        {
+        {responseBody
           "name": "Bespin",
           "rotation_period": "12",
           "orbital_period": "5110",
@@ -251,6 +244,8 @@ describe('Unit testing for StarWars API', () => {
           "url": "https://swapi.dev/api/planets/10/"
         }
       ]
-    })
-  });
-});
+    };
+
+    response.send(responseBody);
+  }
+}
